@@ -1,0 +1,8 @@
+{
+  "devDependencies": {
+    "typeorm": "^0.3.24"
+  },
+  "dependencies": {
+    "pg": "^8.16.0"
+  }
+}
