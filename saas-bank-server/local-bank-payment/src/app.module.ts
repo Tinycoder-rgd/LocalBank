@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PaymentModule } from './payment/payment.module';
-import { Payment } from './payment/payment.entity';
+import { Payment } from './payment/entities/payment.entity';
 
 @Module({
   imports: [

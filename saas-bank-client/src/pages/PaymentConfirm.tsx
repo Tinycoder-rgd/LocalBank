@@ -1,42 +1,69 @@
-import { useLocation, useNavigate } from 'react-router-dom';
+// src/pages/PaymentConfirm.tsx
+import { useLocation, useNavigate } from "react-router-dom";
 
-const PaymentConfirm = () => {
-  const location = useLocation();
+export default function PaymentConfirm() {
   const navigate = useNavigate();
+  const location = useLocation();
 
-  // Expect success info passed in state from navigation
-  const { state } = location;
-  const success = state?.success || false;
-  const amount = state?.amount || 0;
-  const bank = state?.bank || '';
+  const {
+    account = "10555601",
+    sort = "406650",
+    ref = "12345678",
+    bankName = "Lloyds Bank",
+    amount = "1.00",
+    payee = "Test",
+  } = location.state || {};
 
   return (
-    <div className="p-6 max-w-md mx-auto text-center">
-      {success ? (
-        <>
-          <h2 className="text-3xl font-bold mb-4 text-green-600">
-            Payment Successful!
-          </h2>
-          <p className="mb-2">
-            You have paid <strong>${amount.toFixed(2)}</strong> to{' '}
-            <strong>{bank}</strong>.
-          </p>
-        </>
-      ) : (
-        <>
-          <h2 className="text-3xl font-bold mb-4 text-red-600">Payment Failed</h2>
-          <p>Please try again later.</p>
-        </>
-      )}
+    <div className="min-h-screen flex flex-col items-center justify-center px-4 bg-white">
+      <div className="w-full max-w-md shadow-md border rounded-lg p-6">
+        <h1 className="text-lg font-semibold text-center mb-4">Bank Payment</h1>
+        <h2 className="text-md font-medium mb-4">Payment Details</h2>
 
-      <button
-        onClick={() => navigate('/')}
-        className="mt-6 px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-      >
-        Return to Home
-      </button>
+        <div className="space-y-2 text-sm">
+          <Detail label="Single Payment" value={`£${amount}`} />
+          <Detail label="Payee" value={payee} />
+          <Detail label="Payee Account #" value={account} />
+          <Detail label="Payee Sort Code" value={sort} />
+          <div className="flex justify-between items-center">
+            <span className="text-gray-500">Bank</span>
+            <div>
+              <span className="mr-2">{bankName}</span>
+              <button
+                className="text-blue-600 underline text-sm"
+                onClick={() => navigate("/")}
+              >
+                Change
+              </button>
+            </div>
+          </div>
+          <Detail label="Reference #" value={ref} />
+        </div>
+
+        <div className="mt-6 space-y-2">
+          <button
+            className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+            onClick={() => navigate("/receipt", { state: { account, sort, ref, bankName, amount } })}
+          >
+            Accept and Continue to Your Bank
+          </button>
+          <button
+            className="w-full border border-gray-300 text-gray-700 py-2 rounded"
+            onClick={() => navigate("/")}
+          >
+            Decline
+          </button>
+        </div>
+      </div>
     </div>
   );
-};
+}
 
-export default PaymentConfirm;
+function Detail({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex justify-between">
+      <span className="text-gray-500">{label}</span>
+      <span className="font-medium">{value}</span>
+    </div>
+  );
+}

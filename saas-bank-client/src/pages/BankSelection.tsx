@@ -1,35 +1,31 @@
-import { useNavigate } from 'react-router-dom';
+// src/pages/BankSelection.tsx
+import { useNavigate } from "react-router-dom";
 
-const BankSelection = () => {
+const banks = [
+  { name: "KCB", icon: "/kcb.png" },
+  { name: "Equity", icon: "/equity.png" },
+  { name: "Cooperative Bank", icon: "/coop.png" },
+];
+
+export default function BankSelection() {
   const navigate = useNavigate();
 
-  const banks = [
-    'Equity Bank',
-    'KCB Bank',
-    'Co-Operative Bank',
-    
-  ];
-
-  const handleBankSelect = (bank: string) => {
-    navigate(`/amount/${encodeURIComponent(bank)}`);
-  };
-
   return (
-    <div className="p-6 max-w-md mx-auto">
-      <h2 className="text-2xl mb-4 font-semibold">Select Your Bank</h2>
-      <ul>
+    <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-white">
+      <h2 className="text-2xl font-bold mb-6">Select Your Bank</h2>
+
+      <div className="w-full max-w-sm space-y-4">
         {banks.map((bank) => (
-          <li
-            key={bank}
-            className="cursor-pointer border rounded p-4 mb-2 hover:bg-blue-100"
-            onClick={() => handleBankSelect(bank)}
+          <button
+            key={bank.name}
+            onClick={() => navigate(`/bank-details/${bank.name}`)}
+            className="w-full flex items-center gap-4 border p-4 rounded-lg shadow-sm hover:shadow transition"
           >
-            {bank}
-          </li>
+           
+            <span className="text-lg font-medium text-center">{bank.name}</span>
+          </button>
         ))}
-      </ul>
+      </div>
     </div>
   );
-};
-
-export default BankSelection;
+}
